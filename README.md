@@ -59,42 +59,135 @@ chatbot_giao_duc/
 ├── README.md                       # Mô tả dự án
 └── utils/                          # Các hàm hỗ trợ NLP, xử lý dữ liệu, v.v.
 ```
-🚀 Cách chạy chatbot (local)
-1️⃣ Cài đặt thư viện
+🤖 Chatbot Học vụ CTU – Hệ thống RAG với LangChain + Ollama
+1. Giới thiệu dự án
 
-pip install -r requirements.txt
+Dự án này xây dựng một chatbot hỗ trợ học vụ cho sinh viên Trường Đại học Cần Thơ (CTU). Chatbot hoạt động dựa trên kiến trúc RAG (Retrieval-Augmented Generation), kết hợp mô hình ngôn ngữ lớn (LLM) chạy qua Ollama, trích xuất dữ liệu bằng LangChain và lưu trữ/truy vấn dữ liệu bằng ChromaDB.
+Mục tiêu của chatbot: trả lời câu hỏi học vụ, cung cấp link chính thức, hạn chế bịa đặt nhờ sử dụng dữ liệu RAG, và phản hồi ngắn gọn rõ ràng.
 
-2️⃣ Chạy chatbot
+2. Kiến trúc hệ thống
 
-python app.py
+Luồng hoạt động: Người dùng → Câu hỏi → RAG → Truy xuất dữ liệu → LLM → Trả lời hoàn chỉnh.
+Các thành phần chính:
 
-3️⃣ Bắt đầu trò chuyện
+TextLoader: tải dữ liệu từ file kien_thuc_giao_duc.txt
 
-Chatbot chạy trên terminal.
+TextSplitter: chia nhỏ dữ liệu thành chunk
 
-Giao tiếp bằng tiếng Việt tự nhiên.
+Embedding: chuyển chunk thành vector bằng nomic-embed-text
 
-👩‍💻 Thành viên Nhóm 19
+ChromaDB: lưu embeddings để truy vấn nhanh
 
-Họ và Tên	MSSV	Vai trò
+LLM (llama3.1:8b): tạo câu trả lời
 
- Hoàng		Trưởng nhóm – xử lý dữ liệu & tích hợp
+Prompt tùy chỉnh: đảm bảo output đúng dạng yêu cầu
 
- Phú		Tối ưu hội thoại & huấn luyện mô hình
-...	...	...
+3. Chức năng chính
 
-🌐 Tài nguyên & Liên hệ
+Trả lời các câu hỏi học vụ: đăng ký môn học, lịch thi, lịch học, xem điểm
 
-#Nội dung	Liên kết
+Cung cấp đầy đủ link chính thức của CTU
 
-🌍 Website trường	https://www.ctu.edu.vn
+Dẫn nguồn dữ liệu từ file RAG
 
-🎓 Cổng sinh viên	https://qldt.ctu.edu.vn
+Trả lời theo format gọn (3–6 câu)
 
-🧾 Đăng ký học phần	https://dkmh.ctu.edu.vn
+Hạn chế bịa đặt thông tin khi dữ liệu không có
 
-📚 Thông tin tuyển sinh	https://tuyensinh.ctu.edu.vn
+4. Công nghệ sử dụng
 
-❤️ Ghi chú
-Dự án được thực hiện nhằm mục đích học tập và nghiên cứu trong khuôn khổ môn học Năng Lực Số Nâng Cao.
-Mọi thông tin học vụ được lấy từ nguồn chính thức của Trường Đại học Cần Thơ (CTU).
+Python 3.9+
+
+LangChain & LangChain Community
+
+Ollama
+
+ChromaDB
+
+Nomic Embedding
+
+PromptTemplate
+
+5. Hướng dẫn cài đặt
+Bước 1 – Cài đặt Ollama
+
+Tải và cài đặt tại: https://ollama.com/download
+
+Sau khi cài, tải các model cần dùng:
+
+ollama pull llama3.1:8b
+
+ollama pull nomic-embed-text
+
+Kiểm tra: ollama list.
+
+Bước 2 – Cài đặt thư viện Python
+
+Chạy lệnh sau:
+pip install langchain langchain-community langchain-core langchain-ollama chromadb python-pptx pypandoc
+
+Bước 3 – Chuẩn bị dữ liệu RAG
+
+Tạo file kien_thuc_giao_duc.txt chứa:
+
+Thông tin học vụ CTU
+
+Quy chế đào tạo
+
+Thao tác đăng ký môn
+
+Liên hệ các phòng ban
+
+Câu hỏi – đáp phổ biến
+
+Bước 4 – Chạy chương trình
+
+Sử dụng lệnh:
+python main.py
+Nếu chạy thành công bạn sẽ thấy: “Chatbot CTU đã sẵn sàng!”.
+
+6. Cách sử dụng
+
+Gõ câu hỏi bất kỳ về học vụ:
+
+“Làm sao đăng ký môn học?”
+
+“Tra lịch thi ở đâu?”
+
+“Số điện thoại phòng đào tạo?”
+
+“Xem điểm như thế nào?”
+
+Chatbot sẽ:
+
+Truy xuất RAG
+
+Ghép vào prompt
+
+Trả lời có link, có nguồn, có mức độ tin cậy
+
+7. Link – thông tin học vụ CTU
+
+Đăng ký môn học: https://dkmhfe.ctu.edu.vn
+
+Xem điểm / lịch thi / lịch học: https://htql.ctu.edu.vn
+
+Hỗ trợ kỹ thuật: https://helpdesk.ctu.edu.vn
+
+Phòng Đào tạo: pdt@ctu.edu.vn
+ – 0292 383 1156
+
+Phòng Công tác sinh viên: pctsv@ctu.edu.vn
+ – 0292 387 2177
+
+8. Ghi chú
+
+Dự án chạy 100% offline, bảo mật cao
+
+Có thể mở rộng thành chatbot web bằng Streamlit hoặc FastAPI
+
+Có thể thêm nhiều file dữ liệu học vụ khác
+
+9. Bản quyền
+
+Dự án nhằm mục đích học tập – báo cáo môn học, không phải sản phẩm chính thức của CTU.
